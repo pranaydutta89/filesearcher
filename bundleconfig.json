@@ -1,0 +1,30 @@
+﻿// Configure bundling and minification for the project.
+// More info at https://go.microsoft.com/fwlink/?LinkId=808241
+[
+  {
+    "outputFileName": "wwwroot/css/app.min.css",
+    //  An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/lib/bootstrap/css/bootstrap.css",
+      "Views/**/*.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/app.min.js",
+    "inputFiles": [
+      "wwwroot/lib/angular/angular.js",
+      "Views/**/*.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  }
+]
