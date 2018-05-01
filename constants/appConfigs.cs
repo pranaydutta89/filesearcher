@@ -30,11 +30,11 @@ namespace fileSearcher.constants
             }
         }
 
-        public string folderSearchListFile
+        public string settingsFile
         {
             get
             {
-                return this.rootFolder + "folderSearchListFile.json";
+                return this.rootFolder + "settings.json";
             }
         }
     }

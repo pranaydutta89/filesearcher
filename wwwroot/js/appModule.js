@@ -1,5 +1,7 @@
 (function (angular) {
 
-    window.angularApp = angular.module('app', []);
-
+    var angularApp = angular.module('app', []);
+   
+    window.angularApp =angularApp;
+    
 })(angular)

@@ -11,7 +11,7 @@ namespace fileSearcher.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IFileService _fileService;
+        // private readonly IFileService _fileService;
         public HomeController(IFileService fileService)
         {
 

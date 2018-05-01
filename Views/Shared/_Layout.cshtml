@@ -13,8 +13,8 @@
         <link rel="stylesheet" href="~/css/app.min.css" asp-append-version="true" />
     </environment>
 </head>
-<body ng-app="app">
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+<body ng-app="app" ng-cloak ng-strict-di>
+    <!-- <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -33,7 +33,7 @@
                 </ul>
             </div>
         </div>
-    </nav>
+    </nav> -->
     <div class="container body-content">
         @RenderBody()
         <hr />

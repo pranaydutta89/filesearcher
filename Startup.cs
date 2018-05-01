@@ -42,6 +42,7 @@ namespace fileSearcher
             }
 
             app.UseStaticFiles();
+           
 
             app.UseMvc(routes =>
             {
