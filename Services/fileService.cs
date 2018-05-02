@@ -3,6 +3,9 @@ using System.IO;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using fileSearcher.Models;
+using System.Linq;
+
 
 namespace fileSearcher.services
 {
@@ -16,27 +19,7 @@ namespace fileSearcher.services
         public fileService(IAppConfig appConfig)
         {
             this._appConfig = appConfig;
-            this.createFolderListFile();
-        }
 
-        private T LoadJson<T>(string filePath)
-        {
-            using (StreamReader r = new StreamReader(filePath))
-            {
-                string json = r.ReadToEnd();
-                T items = JsonConvert.DeserializeObject<T>(json);
-                return items;
-            }
-        }
-
-
-
-        private void createSettings()
-        {
-            if (!File.Exists(_appConfig.settingsFile))
-            {
-                File.Create(_appConfig.settingsFile);
-            }
         }
 
 
@@ -51,28 +34,32 @@ namespace fileSearcher.services
             }
 
         }
-        public IList<string> folderList
+        public IList<searchFolder> folderList
         {
             get
             {
-                List<string> list = this.LoadJson<List<string>>(_appConfig.settingsFile);
-                return list != null ? list : new List<string>();
+                using (var db = new fileSearcherContext())
+                {
+                    return db.searchFolders.ToList();
+                }
             }
         }
         public bool IsFileLocationsSet
         {
             get
             {
-                return File.Exists("./" + this._appConfig.settingsFile) &&
-                this.LoadJson<List<string>>(_appConfig.settingsFile) != null &&
-                   !(this.LoadJson<List<string>>(_appConfig.folderSearchListFile).Count == 0);
+                using (var db = new fileSearcherContext())
+                {
+                    List<searchFolder> folderPath = db.searchFolders.ToList();
+                    return folderPath.Count != 0;
+                }
             }
         }
 
         public void searchFiles()
         {
 
-            IList<string> fileList = LoadJson<List<string>>(_appConfig.folderSearchListFile);
+            IList<string> fileList = LoadJson<List<string>>(_appConfig.settingsFile);
 
             foreach (string filePath in fileList)
             {

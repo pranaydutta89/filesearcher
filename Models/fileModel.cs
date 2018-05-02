@@ -1,10 +1,14 @@
 using System;
 using fileSearcher.constants;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace fileSearcher.Models
 {
-    public class fileModel
+    public class file
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid fileId { get; set; }
         public string name { get; set; }
 
         public fileTypes type { get; set; }
