@@ -7,12 +7,24 @@ using fileSearcher.Models;
 using System.Linq;
 
 
-namespace fileSearcher.services{
+namespace fileSearcher.services
+{
 
 
-    public class settingsService:ISettingsService{
+    public class settingsService : ISettingsService
+    {
 
+        public IList<fileType> updateFileType(IList<fileType> fileTypes)
+        {
 
+            using (var db = new fileSearcherContext())
+            {
+                db.types.RemoveRange(db.types);
+                db.types.AddRange(fileTypes);
+                db.SaveChanges();
+                return fileTypes;
+            }
+        }
 
         public IList<searchFolder> updateFolderListFile(IList<searchFolder> folderList)
         {
@@ -40,6 +52,18 @@ namespace fileSearcher.services{
             }
 
         }
+
+        public IList<fileType> fileTypeList
+        {
+            get
+            {
+                using (var db = new fileSearcherContext())
+                {
+                    return db.types.ToList();
+                }
+            }
+        }
+
         public IList<searchFolder> folderList
         {
             get
@@ -50,14 +74,27 @@ namespace fileSearcher.services{
                 }
             }
         }
-        public bool IsFolderListSet
+
+
+
+        public bool isFileTypeSet
         {
             get
             {
                 using (var db = new fileSearcherContext())
                 {
-                    List<searchFolder> folderPath = db.searchFolders.ToList();
-                    return folderPath.Count != 0;
+                    return db.types.ToList().Count != 0;
+                }
+            }
+        }
+
+        public bool isFolderListSet
+        {
+            get
+            {
+                using (var db = new fileSearcherContext())
+                {
+                    return db.searchFolders.ToList().Count != 0;
                 }
             }
         }

@@ -16,4 +16,16 @@
             
          </div>
      </div>
+
+     <div>
+         Select File Types
+
+         <div ng-repeat="fileType in vm.fileTypes">
+             <label for="{{fileType.type}}">
+                 {{fileType.title}}
+             <input type="checkbox" id="{{fileType.type}}" ng-model="fileType.selected">
+             </label>
+         </div>
+           <button type="button" ng-click="vm.updateFileTypes()">Update</button>  
+     </div>
 </div>
