@@ -9,15 +9,17 @@ using fileSearcher.interfaces;
 
 namespace fileSearcher.Controllers
 {
-    public class HomeController : Controller
+    public partial class HomeController : Controller
     {
 
         private readonly IFileService _fileService;
+        private readonly ISettingsService _settingsService;
         private readonly IAppConfig _appConfig;
-        public HomeController(IFileService fileService, IAppConfig appConfig)
+        public HomeController(IFileService fileService, IAppConfig appConfig,ISettingsService settingsService)
         {
             this._fileService = fileService;
             this._appConfig = appConfig;
+            this._settingsService = settingsService;
 
         }
 
@@ -33,22 +35,22 @@ namespace fileSearcher.Controllers
         [HttpGet]
         public IActionResult getFolderList()
         {
-            return Json(_fileService.folderList);
+            return Json(_settingsService.folderList);
         }
 
         [Route("settings/folderList")]
         [HttpPut]
         public IActionResult putFolderList([FromBody] IList<searchFolder> folderList)
         {
-            return Json(_fileService.updateFolderListFile(folderList));
+            return Json(_settingsService.updateFolderListFile(folderList));
         }
 
-         [Route("settings/fileTypes")]
-        [HttpPut]
-        public IActionResult putFileType([FromBody] IList<fileType> fileType)
-        {
-            return Json(_fileService.updateFolderListFile(folderList));
-        }
+        // [Route("settings/fileTypes")]
+        // [HttpPut]
+        // public IActionResult putFileType([FromBody] IList<fileType> fileType)
+        // {
+        //     return Json(_fileService.updateFolderListFile(folderList));
+        // }
 
 
 
@@ -61,7 +63,7 @@ namespace fileSearcher.Controllers
         public IActionResult start()
         {
 
-            if (this._fileService.IsFolderListSet)
+            if (this._settingsService.IsFolderListSet)
             {
                 return Redirect("Index");
             }

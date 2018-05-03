@@ -26,6 +26,7 @@ namespace fileSearcher
         {
             services.AddMvc();
             services.AddSingleton<IFileService, fileService>();
+            services.AddSingleton<ISettingsService, settingsService>();
             services.AddSingleton<IAppConfig, appConfig>();
         }
 
@@ -42,7 +43,7 @@ namespace fileSearcher
             }
 
             app.UseStaticFiles();
-           
+
 
             app.UseMvc(routes =>
             {

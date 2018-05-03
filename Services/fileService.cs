@@ -22,62 +22,28 @@ namespace fileSearcher.services
 
         }
 
-
-        public IList<searchFolder> updateFolderListFile(IList<searchFolder> folderList)
-        {
-
-            using (var db = new fileSearcherContext())
-            {
-                db.searchFolders.AddRange(folderList);
-                db.SaveChanges();
-                return folderList;
-            }
-
-        }
-        public IList<searchFolder> folderList
-        {
-            get
-            {
-                using (var db = new fileSearcherContext())
-                {
-                    return db.searchFolders.ToList();
-                }
-            }
-        }
-        public bool IsFolderListSet
-        {
-            get
-            {
-                using (var db = new fileSearcherContext())
-                {
-                    List<searchFolder> folderPath = db.searchFolders.ToList();
-                    return folderPath.Count != 0;
-                }
-            }
-        }
-
         public void searchFiles()
         {
-            IList<searchFolder> foldersList;
-            using (var db = new fileSearcherContext())
-            {
-                foldersList = db.searchFolders.ToList();
+            // IList<searchFolder> foldersList;
+            // using (var db = new fileSearcherContext())
+            // {
+            //     foldersList = db.searchFolders.ToList();
 
-            }
-
-
-            foreach (searchFolder folderPath in folderList)
-            {
-                foreach (string file in Directory.EnumerateFiles(
-                            folderPath.folderPath,
-                            "*",
-                            SearchOption.AllDirectories)
-                            )
-                {
+            // }
 
 
-                }
-            }
+            // foreach (searchFolder folderPath in folderList)
+            // {
+            //     foreach (string file in Directory.EnumerateFiles(
+            //                 folderPath.folderPath,
+            //                 "*",
+            //                 SearchOption.AllDirectories)
+            //                 )
+            //     {
+
+
+            //     }
+            // }
 
         }
 
