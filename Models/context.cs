@@ -13,6 +13,13 @@ namespace fileSearcher.Models
         {
             optionsBuilder.UseSqlite("Data Source=fileSearcher.db");
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<searchFolder>()
+                 .HasIndex(u => u.folderPath)
+                 .IsUnique();
+        }
     }
 }
 

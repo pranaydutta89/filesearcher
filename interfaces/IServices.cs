@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using fileSearcher.Models;
 
 namespace fileSearcher.interfaces
 {
@@ -6,7 +7,7 @@ namespace fileSearcher.interfaces
     public interface IFileService
     {
         bool IsFileLocationsSet { get; }
-        IList<string> folderList { get; }
-        IList<string> updateFolderListFile(IList<string> folderList);
+        IList<searchFolder> folderList { get; }
+        IList<searchFolder> updateFolderListFile(IList<searchFolder> folderList);
     }
 }

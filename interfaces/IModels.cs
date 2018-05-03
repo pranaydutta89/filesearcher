@@ -1,5 +1,0 @@
-namespace fileSearcher.interfaces
-{
-    
-
-}

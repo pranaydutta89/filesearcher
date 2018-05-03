@@ -7,6 +7,11 @@ namespace fileSearcher.Models
 {
     public class file
     {
+        public file()
+        {
+            this.lastRefreshed = new DateTime();
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid fileId { get; set; }
         public string name { get; set; }
@@ -17,7 +22,7 @@ namespace fileSearcher.Models
 
         public DateTime modifiedDateTime { get; set; }
 
-        public string renderUrl { get; set; }
+        public DateTime lastRefreshed { get; set; }
 
     }
 }

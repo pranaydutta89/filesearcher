@@ -12,6 +12,7 @@ namespace fileSearcher.Models
     {
          [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid searchFolderId {get;set;}
+
         public string folderPath {get;set;}
     }
     public class fileType

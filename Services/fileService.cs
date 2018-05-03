@@ -23,13 +23,12 @@ namespace fileSearcher.services
         }
 
 
-        public IList<string> updateFolderListFile(IList<string> folderList)
+        public IList<searchFolder> updateFolderListFile(IList<searchFolder> folderList)
         {
 
-            using (StreamWriter file = new StreamWriter(_appConfig.settingsFile))
+            using (var db = new fileSearcherContext())
             {
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.Serialize(file, folderList);
+                db.searchFolders.AddRange(folderList);
                 return folderList;
             }
 
@@ -58,13 +57,18 @@ namespace fileSearcher.services
 
         public void searchFiles()
         {
+            IList<searchFolder> foldersList;
+            using (var db = new fileSearcherContext())
+            {
+                foldersList = db.searchFolders.ToList();
 
-            IList<string> fileList = LoadJson<List<string>>(_appConfig.settingsFile);
+            }
 
-            foreach (string filePath in fileList)
+
+            foreach (searchFolder folderPath in folderList)
             {
                 foreach (string file in Directory.EnumerateFiles(
-                            filePath,
+                            folderPath.folderPath,
                             "*",
                             SearchOption.AllDirectories)
                             )

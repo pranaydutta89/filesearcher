@@ -14,10 +14,10 @@ namespace fileSearcher.Controllers
     {
         private readonly IFileService _fileService;
         private readonly IAppConfig _appConfig;
-        public StartController(IFileService fileService,IAppConfig appConfig)
+        public StartController(IFileService fileService, IAppConfig appConfig)
         {
             this._fileService = fileService;
-            this._appConfig =appConfig;
+            this._appConfig = appConfig;
 
         }
 
@@ -37,7 +37,7 @@ namespace fileSearcher.Controllers
 
         [Route("start/fileList")]
         [HttpPut]
-        public IActionResult putFileList([FromBody] IList<string> folderList)
+        public IActionResult putFileList([FromBody] IList<searchFolder> folderList)
         {
             return Json(_fileService.updateFolderListFile(folderList));
         }
