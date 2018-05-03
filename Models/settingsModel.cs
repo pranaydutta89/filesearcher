@@ -10,15 +10,16 @@ namespace fileSearcher.Models
 
     public class searchFolder
     {
-         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid searchFolderId {get;set;}
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid searchFolderId { get; set; }
 
-        public string folderPath {get;set;}
+        public string folderPath { get; set; }
     }
     public class fileType
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid fileTypeId {get;set;}
-        public fileTypes type{get;set;}
+        public Guid fileTypeId { get; set; }
+
+        public fileTypes type { get; set; }
     }
 }
