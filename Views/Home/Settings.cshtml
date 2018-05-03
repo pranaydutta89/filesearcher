@@ -1,7 +1,7 @@
 <div ng-controller="startController as vm">
      
      <div ng-if="vm.folders.length !=0" ng-repeat="folder in vm.folders track by $index">
-         {{folder}}
+         {{folder.folderPath}}
      </div>
 
      <div>

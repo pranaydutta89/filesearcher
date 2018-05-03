@@ -6,7 +6,7 @@ namespace fileSearcher.interfaces
 
     public interface IFileService
     {
-        bool IsFileLocationsSet { get; }
+        bool IsFolderListSet { get; }
         IList<searchFolder> folderList { get; }
         IList<searchFolder> updateFolderListFile(IList<searchFolder> folderList);
     }

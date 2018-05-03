@@ -29,6 +29,7 @@ namespace fileSearcher.services
             using (var db = new fileSearcherContext())
             {
                 db.searchFolders.AddRange(folderList);
+                db.SaveChanges();
                 return folderList;
             }
 
@@ -43,7 +44,7 @@ namespace fileSearcher.services
                 }
             }
         }
-        public bool IsFileLocationsSet
+        public bool IsFolderListSet
         {
             get
             {

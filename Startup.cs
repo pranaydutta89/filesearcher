@@ -48,7 +48,7 @@ namespace fileSearcher
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Start}/{action=start}/{id?}");
+                    template: "{controller=Home}/{action=start}/{id?}");
             });
         }
     }

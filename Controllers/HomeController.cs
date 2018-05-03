@@ -11,29 +11,64 @@ namespace fileSearcher.Controllers
 {
     public class HomeController : Controller
     {
-        // private readonly IFileService _fileService;
-        public HomeController(IFileService fileService)
-        {
 
+        private readonly IFileService _fileService;
+        private readonly IAppConfig _appConfig;
+        public HomeController(IFileService fileService, IAppConfig appConfig)
+        {
+            this._fileService = fileService;
+            this._appConfig = appConfig;
 
         }
+
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
 
-            return View();
+
+
+        [Route("settings/folderList")]
+        [HttpGet]
+        public IActionResult getFolderList()
+        {
+            return Json(_fileService.folderList);
         }
 
-        public IActionResult Contact()
+        [Route("settings/folderList")]
+        [HttpPut]
+        public IActionResult putFolderList([FromBody] IList<searchFolder> folderList)
         {
-            ViewData["Message"] = "Your contact page.";
+            return Json(_fileService.updateFolderListFile(folderList));
+        }
 
+         [Route("settings/fileTypes")]
+        [HttpPut]
+        public IActionResult putFileType([FromBody] IList<fileType> fileType)
+        {
+            return Json(_fileService.updateFolderListFile(folderList));
+        }
+
+
+
+
+
+        public IActionResult Settings()
+        {
             return View();
+        }
+        public IActionResult start()
+        {
+
+            if (this._fileService.IsFolderListSet)
+            {
+                return Redirect("Index");
+            }
+            else
+            {
+                return Redirect("Home/Settings");
+            }
         }
 
     }
