@@ -1,24 +1,8 @@
 (function (window) {
 
-    window.angularApp.controller('startController', ['$http', '$q', function ($http, $q) {
+    window.angularApp.controller('startController', ['$http', '$q', 'fileTypes', function ($http, $q, fileTypes) {
         var _this = this;
 
-        this.fileTypes = [{
-            type: 1,
-            title: "Audio"
-        }, {
-            type: 2,
-            title: "Video"
-        }, {
-            type: 3,
-            title: "Docuemnts"
-        }, {
-            type: 5,
-            title: "Images"
-        }, {
-            type: 4,
-            title: "ALL"
-        }]
 
         $http.get('/settings/folderList').then(function (res) {
             _this.folders = res.data;

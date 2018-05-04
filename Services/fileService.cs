@@ -17,33 +17,44 @@ namespace fileSearcher.services
         private readonly IAppConfig _appConfig;
 
         private List<string> audioExtn = new List<string>(){
-            "mp3",
-            "wav"
+            ".mp3",
+            ".wav"
         };
 
         private List<string> videoExtn = new List<string>(){
-            "mp4",
-            "mpeg",
-            "mpg"
+            ".mp4",
+            ".mpeg",
+            ".mpg"
         };
 
 
         private List<string> documentExtn = new List<string>(){
-            "docx",
-            "pptx",
-            "pdf"
+            ".docx",
+            ".pptx",
+            ".pdf"
         };
 
         private List<string> imageExtn = new List<string>(){
-            "jpg",
-            "png",
-            "gif"
+            ".jpg",
+            ".png",
+            ".gif"
         };
 
 
         public fileService(IAppConfig appConfig)
         {
             this._appConfig = appConfig;
+
+        }
+
+        public IList<fileModel> getFileList(int start, int take)
+        {
+
+
+            using (var db = new fileSearcherContext())
+            {
+                return db.files.Skip(start).Take(take).ToList();
+            }
 
         }
 
@@ -71,89 +82,108 @@ namespace fileSearcher.services
             }
         }
 
-        public int scanFiles()
+        public bool isThereAnyFiles
         {
-            List<fileTypeModel> types;
-            List<searchFolderModel> folders;
-            using (var db = new fileSearcherContext())
+            get
             {
-                types = db.types.ToList();
-                folders = db.searchFolders.ToList();
-            }
-
-            List<string> extn = new List<string>();
-
-            types.ForEach((type) =>
-            {
-                switch (type.type)
+                using (var db = new fileSearcherContext())
                 {
-                    case fileTypeConstant.audio:
-                        extn.AddRange(this.audioExtn);
-                        break;
-
-                    case fileTypeConstant.video:
-                        extn.AddRange(this.videoExtn);
-                        break;
-
-                    case fileTypeConstant.images:
-                        extn.AddRange(this.imageExtn);
-                        break;
-
-                    case fileTypeConstant.documents:
-                        extn.AddRange(this.documentExtn);
-                        break;
-
-                    case fileTypeConstant.all:
-                        extn.Concat(this.audioExtn).
-                        Concat(this.videoExtn).
-                        Concat(this.imageExtn).
-                        Concat(this.documentExtn);
-                        break;
+                    return db.files.ToList().Count != 0;
                 }
-            });
+            }
+        }
 
-            List<fileModel> files = new List<fileModel>();
-            using (var db = new fileSearcherContext())
+        public Task<int> scanFiles()
+        {
+            return Task.Factory.StartNew(() =>
             {
-
-                foreach (searchFolderModel folder in folders)
+                List<fileTypeModel> types;
+                List<searchFolderModel> folders;
+                using (var db = new fileSearcherContext())
                 {
-                    foreach (string filePath in Directory.EnumerateFiles(
-                                folder.folderPath,
-                                "*",
-                                SearchOption.AllDirectories)
-                                )
+                    types = db.types.ToList();
+                    folders = db.searchFolders.ToList();
+                }
+
+                List<string> extn = new List<string>();
+
+                types.ForEach((type) =>
+                {
+                    switch (type.type)
                     {
+                        case fileTypeConstant.audio:
+                            extn.AddRange(this.audioExtn);
+                            break;
 
-                        FileInfo info = new FileInfo(filePath);
+                        case fileTypeConstant.video:
+                            extn.AddRange(this.videoExtn);
+                            break;
 
-                        if (!extn.Contains(info.Extension))
+                        case fileTypeConstant.images:
+                            extn.AddRange(this.imageExtn);
+                            break;
+
+                        case fileTypeConstant.documents:
+                            extn.AddRange(this.documentExtn);
+                            break;
+
+                        case fileTypeConstant.all:
+                            extn.Concat(this.audioExtn).
+                            Concat(this.videoExtn).
+                            Concat(this.imageExtn).
+                            Concat(this.documentExtn);
+                            break;
+                    }
+                });
+
+                List<fileModel> files = new List<fileModel>();
+                using (var db = new fileSearcherContext())
+                {
+
+                    foreach (searchFolderModel folder in folders)
+                    {
+                        foreach (string filePath in Directory.EnumerateFiles(
+                                    folder.folderPath,
+                                    "*",
+                                    SearchOption.AllDirectories)
+                                    )
                         {
-                            continue;
+
+                            FileInfo info = new FileInfo(filePath);
+
+                            if ((!extn.Contains(info.Extension.ToLower())) &&
+                             types.Find(r => r.type == fileTypeConstant.all) == null)
+                            {
+                                continue;
+                            }
+
+                            fileModel file = new fileModel()
+                            {
+                                name = info.Name,
+                                path = filePath,
+                                type = this.getFileType(filePath),
+                                createdDateTime = info.CreationTime,
+                                modifiedDateTime = info.LastWriteTime
+                            };
+
+
+                            if (db.files.Where(a => a.name == file.name && a.path == file.path).SingleOrDefault() == null)
+                            {
+                                files.Add(file);
+                            }
                         }
 
-                        fileModel file = new fileModel()
-                        {
-                            name = info.FullName,
-                            path = filePath,
-                            type = this.getFileType(filePath),
-                            createdDateTime = info.CreationTime,
-                            modifiedDateTime = info.LastWriteTime
-                        };
-
-
-                        if (db.files.Where(a => a.name == file.name && a.path == file.path).SingleOrDefault() == null)
-                        {
-                            files.Add(file);
-                        }
                     }
 
+                    if (files.Count != 0)
+                    {
+                        db.files.AddRange(files);
+                        db.SaveChanges();
+                    }
                 }
 
-                db.files.AddRange(files);
-            }
-
-            return files.Count;
+                return files.Count;
+            });
 
         }
 

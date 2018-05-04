@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using fileSearcher.Models;
+using System.Threading.Tasks;
 
 namespace fileSearcher.interfaces
 {
@@ -16,6 +17,8 @@ namespace fileSearcher.interfaces
     }
     public interface IFileService
     {
-        int scanFiles();
+        IList<fileModel> getFileList(int start, int take);
+        bool isThereAnyFiles { get; }
+        Task<int> scanFiles();
     }
 }

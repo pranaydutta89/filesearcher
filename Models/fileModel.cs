@@ -10,7 +10,7 @@ namespace fileSearcher.Models
     {
         public fileModel()
         {
-            this.lastRefreshed = new DateTime();
+            this.lastRefreshed = DateTime.Now;
         }
 
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -15,7 +15,7 @@ namespace fileSearcher.Controllers
         private readonly IFileService _fileService;
         private readonly ISettingsService _settingsService;
         private readonly IAppConfig _appConfig;
-        public HomeController(IFileService fileService, IAppConfig appConfig,ISettingsService settingsService)
+        public HomeController(IFileService fileService, IAppConfig appConfig, ISettingsService settingsService)
         {
             this._fileService = fileService;
             this._appConfig = appConfig;
@@ -24,15 +24,28 @@ namespace fileSearcher.Controllers
         }
 
 
+        [Route("home/files")]
+        [HttpGet]
+        public IActionResult getFiles(int page)
+        {
+            return Json(_fileService.getFileList((page - 1) * 10, 10));
+        }
+
         [Route("home/scan")]
         [HttpGet]
-        public IActionResult scanFiles()
+        public async Task<IActionResult> scanFiles()
         {
-            return Json(_fileService.scanFiles());
+            return Json(await _fileService.scanFiles());
         }
 
         public IActionResult Me()
         {
+
+            if (!_fileService.isThereAnyFiles)
+            {
+                _fileService.scanFiles();
+            }
+
             return View();
         }
 

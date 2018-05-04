@@ -29,6 +29,8 @@ namespace fileSearcher.services
         public IList<searchFolderModel> updateFolderListFile(IList<searchFolderModel> folderList)
         {
 
+            //  folderList = from folderList.ToList() where             
+
             using (var db = new fileSearcherContext())
             {
                 List<searchFolderModel> folders = db.searchFolders.ToList();

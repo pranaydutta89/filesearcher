@@ -1,4 +1,19 @@
 ﻿<div ng-controller="meController as vm">
  
  <button ng-click="vm.startScanning()">Scan</button>
+
+
+ <div ng-repeat="file in vm.files">
+     <div>{{file.name}}</div>
+     <div>{{file.type}}</div>
+     <div ng-switch="file.type">
+         <div ng-switch-when="1">
+             <!--audio-->
+             <div ng-click="vm.openFile(file.fileId)">play</div>
+             <div>
+                 <audio src=""></audio>
+             </div>
+         </div>
+     </div>
+ </div>
 </div>
