@@ -6,14 +6,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace fileSearcher.Models
 {
-    public class file
+    public class fileModel
     {
-        public file()
+        public fileModel()
         {
             this.lastRefreshed = new DateTime();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid fileId { get; set; }
 
         [Required]

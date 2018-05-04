@@ -14,7 +14,7 @@ namespace fileSearcher.services
     public class settingsService : ISettingsService
     {
 
-        public IList<fileType> updateFileType(IList<fileType> fileTypes)
+        public IList<fileTypeModel> updateFileType(IList<fileTypeModel> fileTypes)
         {
 
             using (var db = new fileSearcherContext())
@@ -26,16 +26,16 @@ namespace fileSearcher.services
             }
         }
 
-        public IList<searchFolder> updateFolderListFile(IList<searchFolder> folderList)
+        public IList<searchFolderModel> updateFolderListFile(IList<searchFolderModel> folderList)
         {
 
             using (var db = new fileSearcherContext())
             {
-                List<searchFolder> folders = db.searchFolders.ToList();
+                List<searchFolderModel> folders = db.searchFolders.ToList();
 
-                folderList.ToList().ForEach((searchFolder s) =>
+                folderList.ToList().ForEach((searchFolderModel s) =>
                 {
-                    searchFolder Temp = folders.Find((searchFolder u) =>
+                    searchFolderModel Temp = folders.Find((searchFolderModel u) =>
                     {
                         return u.folderPath == s.folderPath;
                     });
@@ -53,7 +53,7 @@ namespace fileSearcher.services
 
         }
 
-        public IList<fileType> fileTypeList
+        public IList<fileTypeModel> fileTypeList
         {
             get
             {
@@ -64,7 +64,7 @@ namespace fileSearcher.services
             }
         }
 
-        public IList<searchFolder> folderList
+        public IList<searchFolderModel> folderList
         {
             get
             {

@@ -9,18 +9,17 @@ namespace fileSearcher.Models
 {
 
 
-    public class searchFolder
+    public class searchFolderModel
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid searchFolderId { get; set; }
 
         [Required]
-        [RegularExpression(@"^(?:[a-zA-Z]\:|\\\\[\w\.]+\\[\w.$]+)\\(?:[\w]+\\)*\w([\w.])+$")]
         public string folderPath { get; set; }
     }
-    public class fileType
+    public class fileTypeModel
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid fileTypeId { get; set; }
 
         [Required]

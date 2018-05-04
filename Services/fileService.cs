@@ -47,10 +47,34 @@ namespace fileSearcher.services
 
         }
 
+        public fileTypeConstant getFileType(string name)
+        {
+            if (audioExtn.Contains(new FileInfo(name).Extension))
+            {
+                return fileTypeConstant.audio;
+            }
+            else if (videoExtn.Contains(new FileInfo(name).Extension))
+            {
+                return fileTypeConstant.video;
+            }
+            else if (imageExtn.Contains(new FileInfo(name).Extension))
+            {
+                return fileTypeConstant.images;
+            }
+            else if (documentExtn.Contains(new FileInfo(name).Extension))
+            {
+                return fileTypeConstant.documents;
+            }
+            else
+            {
+                return fileTypeConstant.unknown;
+            }
+        }
+
         public int scanFiles()
         {
-            List<fileType> types;
-            List<searchFolder> folders;
+            List<fileTypeModel> types;
+            List<searchFolderModel> folders;
             using (var db = new fileSearcherContext())
             {
                 types = db.types.ToList();
@@ -88,22 +112,48 @@ namespace fileSearcher.services
                 }
             });
 
-
-
-            foreach (searchFolder folder in folders)
+            List<fileModel> files = new List<fileModel>();
+            using (var db = new fileSearcherContext())
             {
-                foreach (string file in Directory.EnumerateFiles(
-                            folder.folderPath,
-                            "*",
-                            SearchOption.AllDirectories)
-                            )
-                {
 
+                foreach (searchFolderModel folder in folders)
+                {
+                    foreach (string filePath in Directory.EnumerateFiles(
+                                folder.folderPath,
+                                "*",
+                                SearchOption.AllDirectories)
+                                )
+                    {
+
+                        FileInfo info = new FileInfo(filePath);
+
+                        if (!extn.Contains(info.Extension))
+                        {
+                            continue;
+                        }
+
+                        fileModel file = new fileModel()
+                        {
+                            name = info.FullName,
+                            path = filePath,
+                            type = this.getFileType(filePath),
+                            createdDateTime = info.CreationTime,
+                            modifiedDateTime = info.LastWriteTime
+                        };
+
+
+                        if (db.files.Where(a => a.name == file.name && a.path == file.path).SingleOrDefault() == null)
+                        {
+                            files.Add(file);
+                        }
+                    }
 
                 }
+
+                db.files.AddRange(files);
             }
 
-            return 1;
+            return files.Count;
 
         }
 

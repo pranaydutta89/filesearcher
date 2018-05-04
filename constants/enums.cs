@@ -10,7 +10,9 @@ namespace fileSearcher.constants
 
         all = 4,
 
-        images = 5
+        images = 5,
+
+        unknown=6
     }
 
 }

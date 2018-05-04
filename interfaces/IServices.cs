@@ -7,12 +7,12 @@ namespace fileSearcher.interfaces
     public interface ISettingsService
     {
 
-        IList<fileType> updateFileType(IList<fileType> fileTypes);
-        IList<fileType> fileTypeList { get; }
+        IList<fileTypeModel> updateFileType(IList<fileTypeModel> fileTypes);
+        IList<fileTypeModel> fileTypeList { get; }
         bool isFileTypeSet { get; }
         bool isFolderListSet { get; }
-        IList<searchFolder> folderList { get; }
-        IList<searchFolder> updateFolderListFile(IList<searchFolder> folderList);
+        IList<searchFolderModel> folderList { get; }
+        IList<searchFolderModel> updateFolderListFile(IList<searchFolderModel> folderList);
     }
     public interface IFileService
     {

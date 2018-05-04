@@ -23,14 +23,14 @@ namespace fileSearcher.Controllers
 
         [Route("settings/folderList")]
         [HttpPut]
-        public IActionResult putFolderList([FromBody] IList<searchFolder> folderList)
+        public IActionResult putFolderList([FromBody] IList<searchFolderModel> folderList)
         {
             return Json(_settingsService.updateFolderListFile(folderList));
         }
 
         [Route("settings/fileTypes")]
         [HttpPut]
-        public IActionResult putFileType([FromBody] IList<fileType> fileType)
+        public IActionResult putFileType([FromBody] IList<fileTypeModel> fileType)
         {
             return Json(_settingsService.updateFileType(fileType));
         }
