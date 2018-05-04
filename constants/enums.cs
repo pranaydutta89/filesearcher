@@ -1,14 +1,16 @@
 namespace fileSearcher.constants
 {
 
-    public enum fileTypes
+    public enum fileTypeConstant
     {
-        
+
         audio = 1,
         video = 2,
         documents = 3,
 
-        all =4
+        all = 4,
+
+        images = 5
     }
 
 }

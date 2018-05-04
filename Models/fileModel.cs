@@ -18,8 +18,11 @@ namespace fileSearcher.Models
 
         [Required]
         public string name { get; set; }
+
         [Required]
-        public fileTypes type { get; set; }
+        public string path { get; set; }
+        [Required]
+        public fileTypeConstant type { get; set; }
         [Required]
         public DateTime createdDateTime { get; set; }
         [Required]

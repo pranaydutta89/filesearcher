@@ -23,6 +23,14 @@ namespace fileSearcher.Controllers
 
         }
 
+
+        [Route("home/scan")]
+        [HttpGet]
+        public IActionResult scanFiles()
+        {
+            return Json(_fileService.scanFiles());
+        }
+
         public IActionResult Me()
         {
             return View();

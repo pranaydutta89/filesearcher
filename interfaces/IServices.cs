@@ -6,6 +6,7 @@ namespace fileSearcher.interfaces
 
     public interface ISettingsService
     {
+
         IList<fileType> updateFileType(IList<fileType> fileTypes);
         IList<fileType> fileTypeList { get; }
         bool isFileTypeSet { get; }
@@ -15,6 +16,6 @@ namespace fileSearcher.interfaces
     }
     public interface IFileService
     {
-
+        int scanFiles();
     }
 }

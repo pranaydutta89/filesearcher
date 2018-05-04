@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using fileSearcher.Models;
 using System.Linq;
+using fileSearcher.constants;
 
 
 namespace fileSearcher.services
@@ -15,6 +16,30 @@ namespace fileSearcher.services
 
         private readonly IAppConfig _appConfig;
 
+        private List<string> audioExtn = new List<string>(){
+            "mp3",
+            "wav"
+        };
+
+        private List<string> videoExtn = new List<string>(){
+            "mp4",
+            "mpeg",
+            "mpg"
+        };
+
+
+        private List<string> documentExtn = new List<string>(){
+            "docx",
+            "pptx",
+            "pdf"
+        };
+
+        private List<string> imageExtn = new List<string>(){
+            "jpg",
+            "png",
+            "gif"
+        };
+
 
         public fileService(IAppConfig appConfig)
         {
@@ -22,28 +47,63 @@ namespace fileSearcher.services
 
         }
 
-        public void searchFiles()
+        public int scanFiles()
         {
-            // IList<searchFolder> foldersList;
-            // using (var db = new fileSearcherContext())
-            // {
-            //     foldersList = db.searchFolders.ToList();
+            List<fileType> types;
+            List<searchFolder> folders;
+            using (var db = new fileSearcherContext())
+            {
+                types = db.types.ToList();
+                folders = db.searchFolders.ToList();
+            }
 
-            // }
+            List<string> extn = new List<string>();
+
+            types.ForEach((type) =>
+            {
+                switch (type.type)
+                {
+                    case fileTypeConstant.audio:
+                        extn.AddRange(this.audioExtn);
+                        break;
+
+                    case fileTypeConstant.video:
+                        extn.AddRange(this.videoExtn);
+                        break;
+
+                    case fileTypeConstant.images:
+                        extn.AddRange(this.imageExtn);
+                        break;
+
+                    case fileTypeConstant.documents:
+                        extn.AddRange(this.documentExtn);
+                        break;
+
+                    case fileTypeConstant.all:
+                        extn.Concat(this.audioExtn).
+                        Concat(this.videoExtn).
+                        Concat(this.imageExtn).
+                        Concat(this.documentExtn);
+                        break;
+                }
+            });
 
 
-            // foreach (searchFolder folderPath in folderList)
-            // {
-            //     foreach (string file in Directory.EnumerateFiles(
-            //                 folderPath.folderPath,
-            //                 "*",
-            //                 SearchOption.AllDirectories)
-            //                 )
-            //     {
+
+            foreach (searchFolder folder in folders)
+            {
+                foreach (string file in Directory.EnumerateFiles(
+                            folder.folderPath,
+                            "*",
+                            SearchOption.AllDirectories)
+                            )
+                {
 
 
-            //     }
-            // }
+                }
+            }
+
+            return 1;
 
         }
 

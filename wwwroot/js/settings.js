@@ -13,6 +13,9 @@
             type: 3,
             title: "Docuemnts"
         }, {
+            type: 5,
+            title: "Images"
+        }, {
             type: 4,
             title: "ALL"
         }]

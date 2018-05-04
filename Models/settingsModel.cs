@@ -24,6 +24,6 @@ namespace fileSearcher.Models
         public Guid fileTypeId { get; set; }
 
         [Required]
-        public fileTypes type { get; set; }
+        public fileTypeConstant type { get; set; }
     }
 }
