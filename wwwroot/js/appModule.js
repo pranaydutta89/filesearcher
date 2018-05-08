@@ -2,7 +2,7 @@
 
     var angularApp = angular.module('app', []);
 
-    angularApp.constants('fileTypes', [{
+    angularApp.constant('fileTypes', [{
         type: 1,
         title: "Audio"
     }, {

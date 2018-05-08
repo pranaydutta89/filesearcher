@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using fileSearcher.Models;
 using System.Linq;
 using fileSearcher.constants;
-
+using System;
 
 namespace fileSearcher.services
 {
@@ -45,6 +45,17 @@ namespace fileSearcher.services
         {
             this._appConfig = appConfig;
 
+        }
+
+        public fileModel fileDetails(Guid fileId)
+        {
+
+            using (var db = new fileSearcherContext())
+            {
+                fileModel model = db.files.Find(fileId);
+               // File.Move(model.)
+                
+            }
         }
 
         public IList<fileModel> getFileList(int start, int take)

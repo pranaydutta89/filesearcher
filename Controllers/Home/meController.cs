@@ -31,6 +31,14 @@ namespace fileSearcher.Controllers
             return Json(_fileService.getFileList((page - 1) * 10, 10));
         }
 
+
+        [Route("home/files/{id:guid}")]
+        [HttpGet]
+        public IActionResult getFileDetails(Guid id)
+        {
+            return Json(_fileService.fileDetails(id));
+        }
+
         [Route("home/scan")]
         [HttpGet]
         public async Task<IActionResult> scanFiles()
